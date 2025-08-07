@@ -1,0 +1,35 @@
+# Django and REST Framework
+Django>=5.2.4
+djangorestframework>=3.14.0
+django-cors-headers>=4.3.1
+
+# Supabase Integration
+supabase>=2.0.0
+python-dotenv>=1.0.0
+
+# Database
+psycopg2-binary>=2.9.7  # For PostgreSQL support
+
+# Authentication
+djangorestframework-simplejwt>=5.3.0
+
+# HTTP Requests
+requests>=2.31.0
+
+# Environment Variables
+python-decouple>=3.8
+
+# Development Tools
+django-debug-toolbar>=4.2.0
+
+# Production
+gunicorn>=21.2.0
+whitenoise>=6.6.0
+
+# Testing
+pytest>=7.4.0
+pytest-django>=4.7.0
+
+# Code Quality
+black>=23.0.0
+flake8>=6.0.0 
