@@ -1,59 +1,14 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Brain, Eye, EyeOff, Mail, Lock, ArrowRight } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-
-// Color Palette
-// ... existing code ...
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const { signIn } = useAuth();
-  const navigate = useNavigate();
-
-  const handleChange = (e) => {
-// ... existing code ...
-    if (!form.email || !form.password) {
-      setError('Both fields are required.');
-      return;
-    }
-    
-    setIsLoading(true);
-    setError('');
-
-    try {
-      const { error } = await signIn({
-        email: form.email,
-        password: form.password,
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      navigate('/'); // Redirect to home page on successful login
-
-    } catch (err) {
-      setError(err.message || 'Login failed. Please check your credentials.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <div 
-// ... existing code ...
-import { useState } from 'react';
 import { User, Mail, Lock, Eye, EyeOff, CheckCircle, AlertCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function Signup() {
-  const [form, setForm] = useState({ 
-    name: '', 
-    email: '', 
-    password: '', 
-    confirmPassword: '' 
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -65,7 +20,6 @@ export default function Signup() {
   const { signUp } = useAuth();
   const navigate = useNavigate();
 
-  // New vibrant color palette
   const COLORS = {
     dark: '#11150d',
     darkGreen: '#314026',
@@ -81,6 +35,7 @@ export default function Signup() {
   };
 
   const handleSubmit = async (e) => {
+    console.log("handleSubmit function was called!"); // Diagnostic line
     e.preventDefault();
     setError('');
     
@@ -118,8 +73,7 @@ export default function Signup() {
       }
 
       setSuccessMessage('Signup successful! Please check your email to verify your account.');
-      // Optional: redirect after a delay
-      // setTimeout(() => navigate('/'), 3000);
+
     } catch (err) {
       setError(err.message || 'Signup failed. Please try again.');
     } finally {
@@ -128,8 +82,8 @@ export default function Signup() {
   };
 
   const getPasswordStrength = (password) => {
-    if (!password) return { strength: 0, color: 'gray', text: '' };
-    
+    if (!password) return { strength: 0, colorClass: 'bg-gray-200', text: '' };
+
     let score = 0;
     if (password.length >= 8) score++;
     if (/[a-z]/.test(password)) score++;
@@ -137,10 +91,10 @@ export default function Signup() {
     if (/[0-9]/.test(password)) score++;
     if (/[^A-Za-z0-9]/.test(password)) score++;
 
-    if (score <= 1) return { strength: score, color: 'red', text: 'Weak' };
-    if (score <= 3) return { strength: score, color: 'yellow', text: 'Fair' };
-    if (score <= 4) return { strength: score, color: 'blue', text: 'Good' };
-    return { strength: score, color: 'green', text: 'Strong' };
+    if (score <= 1) return { strength: score, colorClass: 'bg-red-500', text: 'Weak' };
+    if (score <= 3) return { strength: score, colorClass: 'bg-yellow-500', text: 'Fair' };
+    if (score <= 4) return { strength: score, colorClass: 'bg-blue-500', text: 'Good' };
+    return { strength: score, colorClass: 'bg-green-500', text: 'Strong' };
   };
 
   const passwordStrength = getPasswordStrength(form.password);
@@ -150,7 +104,6 @@ export default function Signup() {
     <div className="min-h-screen flex flex-col justify-center items-center py-12 px-4" 
          style={{ background: `linear-gradient(135deg, ${COLORS.dark} 0%, ${COLORS.darkGreen} 100%)` }}>
       
-      {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
           backgroundImage: `radial-gradient(circle at 25% 25%, ${COLORS.highlightGreen} 2px, transparent 2px)`,
@@ -159,7 +112,6 @@ export default function Signup() {
       </div>
 
       <div className="relative w-full max-w-md">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-2" style={{ color: COLORS.highlightGreen }}>
             AI Humaniser
@@ -169,13 +121,11 @@ export default function Signup() {
           </p>
         </div>
 
-        {/* Signup Form */}
         <div className="bg-white rounded-2xl shadow-2xl p-8 border" 
              style={{ borderColor: COLORS.mediumGreen }}>
           
           <form onSubmit={handleSubmit} className="space-y-6">
             
-            {/* Full Name Field */}
             <div>
               <label className="block text-sm font-semibold mb-2" style={{ color: COLORS.darkGreen }}>
                 Full Name
@@ -183,23 +133,14 @@ export default function Signup() {
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <input
-                  type="text"
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
+                  type="text" name="name" value={form.name} onChange={handleChange}
                   className="w-full pl-10 pr-4 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 transition-all duration-200"
-                  style={{ 
-                    borderColor: COLORS.mediumGreen,
-                    background: '#f8f9fa',
-                    focusRing: COLORS.highlightGreen
-                  }}
-                  placeholder="Enter your full name"
-                  required
+                  style={{ borderColor: COLORS.mediumGreen, background: '#f8f9fa' }}
+                  placeholder="Enter your full name" required
                 />
               </div>
             </div>
 
-            {/* Email Field */}
             <div>
               <label className="block text-sm font-semibold mb-2" style={{ color: COLORS.darkGreen }}>
                 Email Address
@@ -207,23 +148,14 @@ export default function Signup() {
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <input
-                  type="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
+                  type="email" name="email" value={form.email} onChange={handleChange}
                   className="w-full pl-10 pr-4 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 transition-all duration-200"
-                  style={{ 
-                    borderColor: COLORS.mediumGreen,
-                    background: '#f8f9fa',
-                    focusRing: COLORS.highlightGreen
-                  }}
-                  placeholder="Enter your email"
-                  required
+                  style={{ borderColor: COLORS.mediumGreen, background: '#f8f9fa' }}
+                  placeholder="Enter your email" required
                 />
               </div>
             </div>
 
-            {/* Password Field */}
             <div>
               <label className="block text-sm font-semibold mb-2" style={{ color: COLORS.darkGreen }}>
                 Password
@@ -231,39 +163,29 @@ export default function Signup() {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={form.password}
-                  onChange={handleChange}
+                  type={showPassword ? "text" : "password"} name="password" value={form.password} onChange={handleChange}
                   className="w-full pl-10 pr-12 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 transition-all duration-200"
-                  style={{ 
-                    borderColor: COLORS.mediumGreen,
-                    background: '#f8f9fa',
-                    focusRing: COLORS.highlightGreen
-                  }}
-                  placeholder="Create a password"
-                  required
+                  style={{ borderColor: COLORS.mediumGreen, background: '#f8f9fa' }}
+                  placeholder="Create a password" required
                 />
                 <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
+                  type="button" onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
               
-              {/* Password Strength Indicator */}
               {form.password && (
                 <div className="mt-2">
                   <div className="flex items-center gap-2 mb-1">
                     <div className="flex gap-1">
-                      {[1, 2, 3, 4, 5.map((level) => (
+                      {[1, 2, 3, 4, 5].map((level) => (
                         <div
                           key={level}
                           className={`h-1 w-8 rounded-full transition-all duration-200 ${
                             level <= passwordStrength.strength
-                              ? `bg-${passwordStrength.color}-500`
+                              ? passwordStrength.colorClass
                               : 'bg-gray-200'
                           }`}
                         ></div>
@@ -277,7 +199,6 @@ export default function Signup() {
               )}
             </div>
 
-            {/* Confirm Password Field */}
             <div>
               <label className="block text-sm font-semibold mb-2" style={{ color: COLORS.darkGreen }}>
                 Confirm Password
@@ -285,28 +206,21 @@ export default function Signup() {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  name="confirmPassword"
-                  value={form.confirmPassword}
-                  onChange={handleChange}
+                  type={showConfirmPassword ? "text" : "password"} name="confirmPassword" value={form.confirmPassword} onChange={handleChange}
                   className="w-full pl-10 pr-12 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 transition-all duration-200"
                   style={{ 
                     borderColor: passwordsMatch ? COLORS.accentGreen : COLORS.mediumGreen,
-                    background: '#f8f9fa',
-                    focusRing: COLORS.highlightGreen
+                    background: '#f8f9fa'
                   }}
-                  placeholder="Confirm your password"
-                  required
+                  placeholder="Confirm your password" required
                 />
                 <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
                   {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
                 
-                {/* Password Match Indicator */}
                 {form.confirmPassword && (
                   <div className="absolute right-12 top-1/2 transform -translate-y-1/2">
                     {passwordsMatch ? (
@@ -319,15 +233,10 @@ export default function Signup() {
               </div>
             </div>
 
-            {/* Terms and Conditions */}
             <div className="flex items-start gap-3">
               <input
-                type="checkbox"
-                id="terms"
-                checked={agreedToTerms}
-                onChange={(e) => setAgreedToTerms(e.target.checked)}
-                className="mt-1 h-4 w-4 rounded border-gray-300 focus:ring-2"
-                style={{ focusRing: COLORS.highlightGreen }}
+                type="checkbox" id="terms" checked={agreedToTerms} onChange={(e) => setAgreedToTerms(e.target.checked)}
+                className="mt-1 h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
               />
               <label htmlFor="terms" className="text-sm text-gray-600">
                 I agree to the{' '}
@@ -341,36 +250,22 @@ export default function Signup() {
               </label>
           </div>
 
-            {/* Error Message */}
             {error && (
-              <div className="p-3 rounded-lg text-sm" style={{ 
-                background: '#fef2f2', 
-                color: '#dc2626',
-                border: '1px solid #fecaca'
-              }}>
+              <div className="p-3 rounded-lg text-sm" style={{ background: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca' }}>
                 {error}
           </div>
             )}
-
-            {/* Success Message */}
+            
             {successMessage && (
-              <div className="p-3 rounded-lg text-sm" style={{
-                background: '#f0fdf4',
-                color: '#166534',
-                border: '1px solid #bbf7d0'
-              }}>
+              <div className="p-3 rounded-lg text-sm" style={{ background: '#f0fdf4', color: '#166534', border: '1px solid #bbf7d0' }}>
                 {successMessage}
               </div>
             )}
-            {/* Submit Button */}
+
             <button
-              type="submit"
-              disabled={isLoading || !agreedToTerms || !passwordsMatch || !form.password || !form.confirmPassword}
+              type="submit" disabled={isLoading || !agreedToTerms || !passwordsMatch || !form.password || !form.confirmPassword}
               className="w-full py-3 px-4 rounded-lg font-semibold text-white text-lg shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              style={{ 
-                background: `linear-gradient(135deg, ${COLORS.darkGreen} 0%, ${COLORS.mediumGreen} 100%)`,
-                hover: `linear-gradient(135deg, ${COLORS.mediumGreen} 0%, ${COLORS.lightGreen} 100%)`
-              }}
+              style={{ background: `linear-gradient(135deg, ${COLORS.darkGreen} 0%, ${COLORS.mediumGreen} 100%)` }}
             >
               {isLoading ? (
                 <>
@@ -383,14 +278,12 @@ export default function Signup() {
             </button>
           </form>
 
-          {/* Divider */}
           <div className="my-6 flex items-center">
             <div className="flex-1 border-t border-gray-300"></div>
             <span className="px-4 text-sm text-gray-500">or</span>
             <div className="flex-1 border-t border-gray-300"></div>
           </div>
 
-          {/* Social Signup */}
           <button className="w-full py-3 px-4 rounded-lg border-2 font-medium text-gray-700 transition-all duration-200 hover:bg-gray-50 flex items-center justify-center gap-3"
                   style={{ borderColor: COLORS.mediumGreen }}>
             <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -402,16 +295,15 @@ export default function Signup() {
             Continue with Google
           </button>
 
-          {/* Login Link */}
           <div className="mt-6 text-center">
             <span className="text-gray-600">Already have an account? </span>
             <a href="/login" className="font-semibold hover:underline transition-colors duration-200" 
                style={{ color: COLORS.accentGreen }}>
               Sign in
             </a>
-      </div>
-    </div>
+          </div>
+        </div>
       </div>
     </div>
   );
-} 
+}
