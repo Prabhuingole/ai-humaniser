@@ -1,0 +1,18 @@
+hat # Flask API Dependencies
+Flask==2.3.3
+Flask-CORS==4.0.0
+
+# AI Model Dependencies
+nltk==3.8.1
+textblob==0.17.1
+humanize==4.8.0
+
+# Supabase Authentication
+supabase-py==1.0.1
+
+# Additional Utilities
+requests==2.31.0
+python-dotenv==1.0.0
+
+# Development
+gunicorn==21.2.0 

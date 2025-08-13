@@ -1,0 +1,8 @@
+name: explian in depth 
+version: 0.0.1
+schema: v1
+prompts:
+  - name: New prompt
+    description: New prompt
+    prompt: explain me code in this file overall concept , why we are doing , what we are doing, how and why  it is connected to oter files 
+

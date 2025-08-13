@@ -1,0 +1,11 @@
+# AI Model Dependencies
+nltk==3.8.1
+textblob==0.17.1
+humanize==4.8.0
+
+# Additional Utilities
+requests==2.31.0
+python-dotenv==1.0.0
+
+# Optional: For better performance
+numpy==1.24.3 

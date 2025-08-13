@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.55.0",
+    "@tailwindcss/forms": "^0.5.10",
+    "framer-motion": "^12.23.6",
+    "lucide-react": "^0.525.0"
+  }
+}
