@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function Signup() {
-  const [form, setForm] = useState({
+  const [form, setForm = useState({
     name: '',
     email: '',
     password: '',
@@ -35,10 +35,8 @@ export default function Signup() {
   };
 
   const handleSubmit = async (e) => {
-    console.log("handleSubmit function was called!"); // Diagnostic line
     e.preventDefault();
-    setError('');
-    
+    setError(''); // Clear previous errors
     if (!agreedToTerms) {
       setError('Please agree to the Terms of Service and Privacy Policy');
       return;
@@ -58,7 +56,8 @@ export default function Signup() {
     setSuccessMessage('');
     
     try {
-      const { error } = await signUp({
+      // The signUp function returns an object with data and error properties
+      const { data, error: signUpError } = await signUp({
         email: form.email,
         password: form.password,
         options: {
@@ -68,14 +67,23 @@ export default function Signup() {
         },
       });
 
-      if (error) {
-        throw error;
+      // Explicitly check for an error from Supabase
+      if (signUpError) {
+        // This will now catch errors like "User already registered"
+        throw signUpError;
       }
 
+      // Check if a user was created but needs confirmation
+      if (data.user && data.user.identities && data.user.identities.length === 0) {
+        setError('Error creating user. Please try again.');
+      } else {
       setSuccessMessage('Signup successful! Please check your email to verify your account.');
+      }
 
     } catch (err) {
-      setError(err.message || 'Signup failed. Please try again.');
+      // Display the actual error message from Supabase
+      setError(err.message || 'An unknown error occurred during signup.');
+      console.error("Signup Error:", err); // Also log the full error object
     } finally {
       setIsLoading(false);
     }
@@ -307,3 +315,4 @@ export default function Signup() {
     </div>
   );
 }
+
